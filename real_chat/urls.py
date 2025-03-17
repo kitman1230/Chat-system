@@ -25,9 +25,10 @@ from users.views import *
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("accounts/", include("allauth.urls")),
-    path("", home_view, name="home"),
+    path("", include("chat.urls")),
     path("profile/", include("users.urls")),
     path("@<username>/", profile_view, name="profile"),
+    path("chat/", include("chat.urls")),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
