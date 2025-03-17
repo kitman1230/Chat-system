@@ -1,0 +1,14 @@
+{% extends 'layouts/box.html' %}
+
+{% block content %}
+
+<h1>DELETE Account</h1>
+<p>Are you sure you want to DELETE your account?</p>
+
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit" class="button button-red mt-6">Yes, I want to DELETE my Account</button>
+    <a href="{{ request.META.HTTP_REFERER }}" class="button button-gray ml-1">Cancel</a>
+</form>
+
+{% endblock content %}

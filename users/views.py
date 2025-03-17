@@ -1,7 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
+from allauth.account.utils import send_email_confirmation
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 from django.contrib.auth.models import User
+from django.contrib import messages
 from .forms import *
 
 
@@ -48,4 +51,39 @@ def profile_emailchange(request):
         form = EmailForm(instance=request.user)
         return render(request, "partials/email_form.html", {"form": form})
 
+    if request.method == "POST":
+        form = EmailForm(request.POST, instance=request.user)
+        if form.is_valid():
+            email = form.cleaned_data["email"]
+            if User.objects.filter(email=email).exclude(id=request.user.id).exists():
+                messages.warning(request, f"{email} is already in use.")
+                return redirect("profile_settings")
+
+            form.save()
+            send_email_confirmation(request, request.user)
+
+            return redirect("profile_settings")
+
+        else:
+            messages.warning(request, "Invalid email.")
+            return redirect("profile_settings")
+
     return redirect("home")
+
+
+@login_required
+def profile_emailverify(request):
+    send_email_confirmation(request, request.user)
+    return redirect("profile_settings")
+
+
+@login_required
+def profile_delete_view(request):
+    user = request.user
+    if request.method == "POST":
+        logout(request)
+        user.delete()
+        messages.success(request, "Account deleted.")
+        return redirect("home")
+
+    return render(request, "profile_delete.html")
