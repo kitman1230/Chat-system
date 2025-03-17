@@ -1,5 +1,7 @@
-Django
-pillow
-django-cleanup
-django-allauth
-django-htmx
+asgiref==3.8.1
+Django==5.1.7
+django-allauth==65.5.0
+django-cleanup==9.0.0
+django-htmx==1.23.0
+pillow==11.1.0
+sqlparse==0.5.3
