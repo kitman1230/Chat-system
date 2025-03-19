@@ -85,17 +85,6 @@ CHANNEL_LAYERS = {
     "default": {"BACKEND": "channels.layers.InMemoryChannelLayer"},
 }
 
-# CHANNEL_LAYERS = {
-#    "default": {
-#        "BACKEND": "channels_redis.core.RedisChannelLayer",
-#        "CONFIG": {
-#            "hosts": [
-#                "rediss://default:AYNgAAIjcDFhODk5MWQzOGNmMDc0ZTBhYWI1MjJiZmQ1Y2RiYzYzZHAxMA@golden-martin-33632.upstash.io:6379"
-#            ],
-#        },
-#    },
-# }
-
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
