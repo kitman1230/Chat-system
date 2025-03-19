@@ -2,8 +2,11 @@ from channels.generic.websocket import WebsocketConsumer
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
 from asgiref.sync import async_to_sync
+import logging
 import json
 from .models import *
+
+logger = logging.getLogger(__name__)
 
 
 class ChatroomConsumer(WebsocketConsumer):
@@ -15,6 +18,12 @@ class ChatroomConsumer(WebsocketConsumer):
         async_to_sync(self.channel_layer.group_add)(
             self.chatroom_name, self.channel_name
         )
+
+        if self.chatroom.groupchat_name:
+            UserChannel.objects.get_or_create(
+                member=self.user, group=self.chatroom, channel=self.channel_name
+            )
+            logger.info(f"UserChannel created for channel: {self.channel_name}")
 
         if self.user not in self.chatroom.users_online.all():
             self.chatroom.users_online.add(self.user)
@@ -30,6 +39,13 @@ class ChatroomConsumer(WebsocketConsumer):
         if self.user in self.chatroom.users_online.all():
             self.chatroom.users_online.remove(self.user)
             self.update_online_count()
+
+        try:
+            user_channel = UserChannel.objects.get(channel=self.channel_name)
+            user_channel.delete()
+            logger.info(f"UserChannel deleted for channel: {self.channel_name}")
+        except UserChannel.DoesNotExist:
+            logger.warning(f"UserChannel not found for channel: {self.channel_name}")
 
     def receive(self, text_data):
         text_data_json = json.loads(text_data)
@@ -68,7 +84,6 @@ class ChatroomConsumer(WebsocketConsumer):
 
     def online_count_handler(self, event):
         online_count = event["online_count"]
-        html = render_to_string(
-            "partials/online_count.html", {"online_count": online_count}
-        )
+        context = {"online_count": online_count, "chat_group": self.chatroom}
+        html = render_to_string("partials/online_count.html", context)
         self.send(text_data=html)

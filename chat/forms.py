@@ -17,3 +17,33 @@ class ChatmessageCreateForm(ModelForm):
                 }
             ),
         }
+
+
+class NewGroupForm(ModelForm):
+    class Meta:
+        model = ChatGroup
+        fields = ["groupchat_name"]
+        widgets = {
+            "groupchat_name": forms.TextInput(
+                attrs={
+                    "placeholder": "Add the chat room name...",
+                    "class": "p-4 text-black",
+                    "maxlength": "200",
+                    "autofocus": True,
+                }
+            ),
+        }
+
+
+class ChatRoomEditForm(ModelForm):
+    class Meta:
+        model = ChatGroup
+        fields = ["groupchat_name"]
+        widgets = {
+            "groupchat_name": forms.TextInput(
+                attrs={
+                    "class": "p-4 text-xl font-bold mb-4",
+                    "maxlength": "200",
+                }
+            ),
+        }
