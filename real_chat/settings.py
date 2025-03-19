@@ -85,6 +85,17 @@ CHANNEL_LAYERS = {
     "default": {"BACKEND": "channels.layers.InMemoryChannelLayer"},
 }
 
+# CHANNEL_LAYERS = {
+#    "default": {
+#        "BACKEND": "channels_redis.core.RedisChannelLayer",
+#        "CONFIG": {
+#            "hosts": [
+#                "rediss://default:AYNgAAIjcDFhODk5MWQzOGNmMDc0ZTBhYWI1MjJiZmQ1Y2RiYzYzZHAxMA@golden-martin-33632.upstash.io:6379"
+#            ],
+#        },
+#    },
+# }
+
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
@@ -153,3 +164,24 @@ ACCOUNT_LOGIN_METHODS = {"email"}
 # ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "none"
 ACCOUNT_SIGNUP_FIELDS = ["email*", "username*", "password1*", "password2*"]
+
+# LOGGING = {
+#    "version": 1,
+#    "disable_existing_loggers": False,
+#    "handlers": {
+#        "console": {
+#            "class": "logging.StreamHandler",
+#        },
+#    },
+#    "loggers": {
+#        "django": {
+#            "handlers": ["console"],
+#            "level": "DEBUG",
+#        },
+#        "channels": {
+#            "handlers": ["console"],
+#            "level": "DEBUG",
+#        },
+#    },
+# }
+#
