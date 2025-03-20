@@ -152,3 +152,7 @@ def chatroom_leave_view(request, chatroom_name):
     chat_group.members.remove(request.user)
     messages.success(request, "You have left the chatroom.")
     return redirect("home")
+
+
+def privacy_policy_view(request):
+    return render(request, "privacy_policy.html")

@@ -3,6 +3,7 @@ from .views import *
 
 urlpatterns = [
     path("", chat_view, name="home"),
+    path("privacy_policy/", privacy_policy_view, name="privacy_policy"),
     path("<username>", get_or_create_chatroom, name="start_chat"),
     path("room/<chatroom_name>", chat_view, name="chatroom"),
     path("room/new_groupchat/", create_groupchat, name="new_groupchat"),

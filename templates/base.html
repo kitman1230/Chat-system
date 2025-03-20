@@ -119,6 +119,11 @@
     {% if user.is_authenticated %}
     <footer hx-ext="ws" ws-connect="/ws/online-status/"></footer>
     {% endif %}
+
+    {% block cookie_modal %}
+        {% include 'partials/modal_cookie.html' %}
+    {% endblock cookie_modal %}
+
     {% block javascript %}{% endblock javascript %}
 
 </body>
